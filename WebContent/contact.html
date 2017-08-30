@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Nous contacter</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Surcharge du CSS de Bootsrap -->	
+ <link rel="stylesheet" type="text/css" href="style.css">
+
+<!-- Fonctions Javascript showalertConstact -->
+<script type="text/javascript" src="proxibanque.js"></script>
+
+</head>
+<body style="background-color:powderblue;">
+
+<nav class="navbar navbar-inverse" style="background-color: rgb(15, 5, 107); border-bottom: none;">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="Images/logo.png"></a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="index.html">Accueil</a></li>
+					<li><a href="agence.html">Notre agence</a></li>
+					<li><a href="aboutConseiller.html">Nos conseillers</a></li>
+					<li><a href="contact.html">Nous contacter</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span>
+							Login Conseillers</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+<h1 style="color: white;">Vous souhaitez nous contacter, Remplissez ce formulaire.</h1>
+<hr>
+<h3 style="color: white;"> Un de nos conseiller se fera un plaisir de répondre à toutes vos questions. </h3>
+<hr>
+
+
+ <div class="container" style="background-color: rgb(240,205,254)">
+  <form >
+
+    <label for="fname">Prénom</label>
+    <input type="text" id="fname" name="firstname" placeholder="Votre prénom..">
+
+    <label for="lname">Nom</label>
+    <input type="text" id="lname" name="lastname" placeholder="Votre nom..">
+
+    <label for="country">Pays</label>
+    <select id="country" name="country">
+      <option value="france">France</option>
+      <option value="canada">Canada</option>
+      <option value="belgique">Belgique</option>
+    </select>
+
+    <label for="subject">Votre question</label>
+    <textarea id="subject" name="subject" placeholder="Ecrivez nous quelque chose.." style="height:200px"></textarea>
+
+    <input type="submit" class="btn btn-info" onclick="show_alertContact();" value="Submit" >
+
+  </form>
+</div> 
+
+  <footer class="container-fluid text-center">
+		<p>© 2017 Revsin Alni Team</p>
+	</footer>
+  
+  
+</body>
+</html>

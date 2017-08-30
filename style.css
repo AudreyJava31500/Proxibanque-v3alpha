@@ -1,0 +1,12 @@
+@charset "ISO-8859-1";
+
+/* style de toutes les pages */ 
+
+
+body {
+	background-image: url("Images/background2.jpg");
+}
+
+.well{
+	background-color: rgb(225,222,72,0.8);
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virement interne</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+<link rel="stylesheet" type="text/css" href="style.css">
+
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	let myCallBack = function(reponse) {
+		var url_string = window.location.href;
+		var url = new URL(url_string);
+		var numeroClient = url.searchParams.get("numero_client");
+		let elements = JSON.parse(reponse.responseText);
+		let table = "<tr><th>Numero de compte</th><th>Numero de client</th><th>Type de compte </th><th>Solde (&euro;)</th></tr>";
+		let input = "";
+		let option = "";
+		for (i = 0; i < elements.length; i++) {
+			let item = elements[i];
+			if (numeroClient === item.numeroClient) {
+				table += "<tr><td>" + item.numeroCompte
+						+ "</td><td>" + item.numeroClient + "</td><td>"
+						+ item.typeCompte + "</td><td>" + item.solde
+						+ "</td></tr>";
+				option += '<option value="'+ item.solde +'">Compte '
+						+ item.typeCompte + " : " + item.numeroCompte
+						+ " (Solde : " + item.solde + "&euro;)</option>";
+			}
+		}
+		let elementTable = document.getElementById("tableResultat");
+		elementTable.innerHTML = table;
+		let elementList1 = document.getElementById("sel1");
+		elementList1.innerHTML = option;
+		let elementList2 = document.getElementById("sel2");
+		elementList2.innerHTML = option;
+	}
+
+	function call() {
+		console.log("Appel AJAX");
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				myCallBack(this);
+			}
+		}
+		xhttp.open("GET", "listeCompte.json", true);
+		xhttp.send();
+	}
+	
+	function virer() {
+		let solde1 = Number(document.getElementById("sel1").value);
+		let solde2 = Number(document.getElementById("sel2").value);
+		let montant = Number(document.getElementById("montant").value);
+		let alertId = document.getElementById("alert");
+		
+		if (montant < 0){
+			alertId.className = "alert alert-danger";
+			alertId.innerHTML = "<strong>Virement KO ! </strong> Vous ne pouvez pas verser un montant négatif! ";
+			
+			
+		} else
+			{
+		if (solde1 >= montant) {
+			alertId.className = "alert alert-success";
+			alertId.innerHTML = "<strong>Virement OK ! </strong>Le compte débité a maintenant un solde de "
+			+ (solde1-montant) + "&euro; et le compte crédité un solde de " + (solde2+montant) + "&euro;.";
+		} else {
+			alertId.className = "alert alert-danger";
+			alertId.innerHTML = "<strong>Virement KO ! </strong>Le compte à débiter (solde = " + solde1 + "&euro;) "
+			+ "ne possède pas un solde suffisant pour effectuer un virement de " + montant + "&euro;.";
+		}
+	}
+	}
+
+	function afficherNom() {
+		console.log("test")
+	  
+		var url_string = window.location.href;
+		var url = new URL(url_string);
+		var xhttp = new XMLHttpRequest();
+		var numeroClient = url.searchParams.get("numero_client");
+	 	 xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      
+	      console.log(this.responseText)
+	      let elements = JSON.parse(this.responseText);
+	      for (i = 0; i < elements.length; i++) {
+				let item = elements[i];
+	      		if (numeroClient === item.numero) {
+	    	 		var nom = item.nom;
+	    	 		var prenom = item.prenom;
+	    	 		console.log(nom);
+	    	 		console.log(prenom);
+	    	 		break;
+	      		}
+	      }
+	      document.getElementById("nomClient").innerHTML ="Virement interne entre les comptes de " + prenom + " " + nom;
+	  }
+	  }
+	    
+	  xhttp.open("GET", "listeClient.json", true);
+	  xhttp.send();
+	}
+	
+
+	var FunOnl = new Array(); 
+	function lancer(fonction) { 
+
+	    FunOnl[FunOnl.length] = fonction; 
+	}
+
+
+	window.onload = function() { 
+
+	    for(var i = 0, longueur = FunOnl.length; i < longueur; i++) 
+
+	        FunOnl[i](); 
+
+	};
+
+	lancer(call);
+	lancer(afficherNom);
+
+</script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" style="background-color: rgb(15, 5, 107); border-bottom: none;">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="Images/logo.png"></a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="index.html">Accueil</a></li>
+					<li><a href="conseiller.html">Gérer un client</a></li>
+					<li><a href="virexterne.html">Effectuer un virement externe</a></li>
+					<li><a href="courrier.html">Courriers</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+<div class="well" style="background-color: rgb(240,205,254)"> 
+		<h1 id="nomClient" >Virement interne entre les comptes du client</h1>
+		
+		</div>
+		<hr></hr>
+		<table id="tableResultat" class="alert alert-info table table-striped"></table>
+
+		<div class="form-group">
+			<label for="sel1">Selection du compte à débiter : </label> <select
+				class="form-control" id="sel1">
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="sel2">Selection du compte à créditer : </label> <select
+				class="form-control" id="sel2">
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="montant">Montant du virement :</label><input type="number"
+				class="form-control" name="montant" id="montant"
+				value="0">
+		</div>
+		
+		<div id="alert" class="">   		
+  		</div>
+
+		<input type="button" onclick="virer();" class="btn btn-primary"
+			value="Virer">
+			
+			
+		<a href="conseiller.html" class="btn btn-success" role="button">Retour</a>
+
+	</div>
+	
+	
+	<footer class="container-fluid text-center">
+		<p>© 2017 Revsin Alni Team</p>
+	</footer>
+</body>
+</html>
