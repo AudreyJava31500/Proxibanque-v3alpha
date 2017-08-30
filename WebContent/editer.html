@@ -3,82 +3,25 @@
 <head>
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Edition du client</title>
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	
-	
 <link rel="stylesheet" type="text/css" href="style.css">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+<script type="text/javascript" src="proxibanque.js"></script>
 
 <script>
-	let myCallBack = function(reponse) {
-		console.log("callback a executer a la reception d'une reponse")
-		//alert(reponse.responseText);	      
-		console.log("JsonParse")
-		var url_string = window.location.href;
-		//alert(url_string)
-		var url = new URL(url_string);
-		var numeroClient = url.searchParams.get("numero_client");
-		//alert(indice_conseiller)
-		let elements = JSON.parse(reponse.responseText);
-		let table = "<tr><th>Indice</th><th>Conseiller</th><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
-		let input = "";
-		for (i = 0; i < elements.length; i++) {
-			let item = elements[i];
-			if (numeroClient === item.numero) {
-				table += "<tr><td>" + (i + 1) + "</td><td>" + item.conseiller
-						+ "</td><td>" + item.numero + "</td><td>" + item.nom
-						+ "</td><td>" + item.prenom + "</td><td>"
-						+ item.adresse + "</td><td>" + item.codePostal
-						+ "</td><td>" + item.ville + "</td><td>"
-						+ item.telephone + "</td><td>" + item.email
-						+ "</td></tr>";
-				input += '<label for="prenom">Prenom :</label><input type="text" class="form-control" name="prenom" id="prenom" value="'+ item.prenom +'"><br>'
-						+ '<label for="nom">Nom :</label><input type="text" class="form-control" name="nom" id="nom" value="'+ item.nom +'"><br>'
-						+ '<label for="email">Email :</label><input type="email" class="form-control" name="email" id="email" value="'+ item.email +'"><br>'
-						+ '<label for="adresse">Adresse :</label><input type="text" class="form-control" name="adresse" id="adresse" value="'+ item.adresse +'"><br>'
-						+ '<label for="codePostal">Code Postal :</label><input type="text" class="form-control" name="codePostal" id="codePostal" value="'+ item.codePostal +'"><br>'
-						+ '<label for="ville">Ville :</label><input type="text" class="form-control" name="ville" id="ville" value="'+ item.ville +'"><br>';
-				break;
-			}
-		}
-		//let elementTable = document.getElementById("tableResultat");
-		//elementTable.innerHTML = table;
-		let elementList = document.getElementById("modif");
-		elementList.innerHTML = input;
-
-	}
-
-	function call() {
-		console.log("Appel AJAX");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				myCallBack(this);
-			}
-		}
-		xhttp.open("GET", "listeClient.json", true);
-		xhttp.send();
-	}
-
-	function envoyer() {
-		let prenom = document.getElementById("prenom").value;
-		let nom = document.getElementById("nom").value;
-		let email = document.getElementById("email").value;
-		let adresse = document.getElementById("adresse").value;
-		let codePostal = document.getElementById("codePostal").value;
-		let ville = document.getElementById("ville").value;
-		alert("Le client possède maintenant les valeurs suivantes :\nprenom : " + prenom
-				+ "\nnom : " + nom + "\nemail : " + email + "\nadresse : " + adresse
-				+ "\ncode postal : " + codePostal + "\nville : " + ville);
-	}
-
-	window.onload = call;
+window.onload = callEdition;
 </script>
+
 </head>
 <body>
 <nav class="navbar navbar-inverse" style="background-color: rgb(15, 5, 107); border-bottom: none;">
@@ -114,15 +57,12 @@
 
 		<!-- <table id="tableResultat" class="alert alert-info table table-striped"></table> -->
 
-		<div id="modif" class="form-group" style="color: white;></div>
-		<input type="button" onclick="envoyer();" class="btn btn-primary"
+		<div id="modif" class="form-group" style="color: white";></div>
+		<input type="button" onclick="envoyerEdition();" class="btn btn-primary"
 			value="Envoyer">
 		<a href="conseiller.html" class="btn btn-success" role="button">Retour</a>
 
-	</div>
-	
-	
-  
+	</div>  
   
 </body>
 </html>

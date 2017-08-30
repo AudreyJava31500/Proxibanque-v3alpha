@@ -1,5 +1,5 @@
 /**
- * Constructeur de
+ *
  * LOGIN
  * fonction mycallbackLogin
  * fonction verifier
@@ -12,6 +12,9 @@
  * fonction affichercompte
  * fonction virement interne
  * fonction lancer les fonction  on load
+ * 
+ * CONTACT 
+ * fonction show_alertContact()
  * 
  * 
  * 
@@ -59,130 +62,199 @@ let myCallBackLogin = function(reponse) {
 		xhttp.send();
 	}
 
-	//conseiller.html	
-let myCallBack = function(reponse) {
-	console.log("callback a executer a la reception d'une reponse")
-	//alert(reponse.responseText);	      
-	console.log("JsonParse")
-	var url_string = window.location.href;
-	//alert(url_string)
-	var url = new URL(url_string);
-	var indice_conseiller = url.searchParams.get("indice_conseiller");
-	if (indice_conseiller === null) {
-		indice_conseiller = sessionStorage.getItem("indice_conseiller");
-	} else {
-		sessionStorage.setItem("indice_conseiller",indice_conseiller);
-	}
-	//alert(indice_conseiller)
-	let elements = JSON.parse(reponse.responseText);
-	let table = "<tr><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
-	let option = "";
-	for (i = 0; i < elements.length; i++) {
-		let item = elements[i];
-		if (indice_conseiller === item.numeroConseiller) {
-			table += "<tr><td>" + item.numero + "</td><td>" + item.nom
-					+ "</td><td>" + item.prenom + "</td><td>"
-					+ item.adresse + "</td><td>" + item.codePostal
-					+ "</td><td>" + item.ville + "</td><td>"
-					+ item.telephone + "</td><td>" + item.email
-					+ "</td></tr>";
-			option += '<option value="'+ item.numero +'">' + item.prenom + " " + item.nom
-					+ " (" + item.numero + ")</option>";
+//conseiller.html	
+	let myCallBackconseiller = function(reponse) {
+		console.log("callback a executer a la reception d'une reponse")
+		//alert(reponse.responseText);	      
+		console.log("JsonParse")
+		var url_string = window.location.href;
+		//alert(url_string)
+		var url = new URL(url_string);
+		var indice_conseiller = url.searchParams.get("indice_conseiller");
+		if (indice_conseiller === null) {
+			indice_conseiller = sessionStorage.getItem("indice_conseiller");
+		} else {
+			sessionStorage.setItem("indice_conseiller",indice_conseiller);
 		}
-	}
-	let elementTable = document.getElementById("tableResultat");
-	elementTable.innerHTML = table;
-	let elementList = document.getElementById("sel1");
-	elementList.innerHTML = option;
-
-}
-
-function call() {
-	console.log("Appel AJAX");
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			myCallBack(this);
-		}
-	}
-	xhttp.open("GET", "listeClient.json", true);
-	xhttp.send();
-}
-
-
-function afficherNomConseiller() {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var url_string = window.location.href;
-			//alert(url_string)
-			var url = new URL(url_string);
-			indice_conseiller = url.searchParams.get("indice_conseiller");
-			if (indice_conseiller === null) {
-				indice_conseiller = sessionStorage.getItem("indice_conseiller");
-			} else {
-				sessionStorage.setItem("indice_conseiller",indice_conseiller);
+		//alert(indice_conseiller)
+		let elements = JSON.parse(reponse.responseText);
+		let table = "<tr><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
+		let option = "";
+		for (i = 0; i < elements.length; i++) {
+			let item = elements[i];
+			if (indice_conseiller === item.numeroConseiller) {
+				table += "<tr><td>" + item.numero + "</td><td>" + item.nom
+						+ "</td><td>" + item.prenom + "</td><td>"
+						+ item.adresse + "</td><td>" + item.codePostal
+						+ "</td><td>" + item.ville + "</td><td>"
+						+ item.telephone + "</td><td>" + item.email
+						+ "</td></tr>";
+				option += '<option value="'+ item.numero +'">' + item.prenom + " " + item.nom
+						+ " (" + item.numero + ")</option>";
 			}
-			
-			let elements = JSON.parse(this.responseText);
-			for (i = 0; i < elements.length; i++) {
-				let item = elements[i];
-				//console.log(item.numero);
-				if (indice_conseiller == item.numero) {
-					var nom = item.nom;
-					//alert(nom);
-					var prenom = item.prenom;
-					break;
+		}
+		let elementTable = document.getElementById("tableResultat");
+		elementTable.innerHTML = table;
+		let elementList = document.getElementById("sel1");
+		elementList.innerHTML = option;
+
+	}
+
+	function callconseiller() {
+		console.log("Appel AJAX");
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				myCallBackconseiller(this);
+			}
+		}
+		xhttp.open("GET", "listeClient.json", true);
+		xhttp.send();
+	}
+
+
+	function afficherNomConseiller() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var url_string = window.location.href;
+				//alert(url_string)
+				var url = new URL(url_string);
+				indice_conseiller = url.searchParams.get("indice_conseiller");
+				if (indice_conseiller === null) {
+					indice_conseiller = sessionStorage.getItem("indice_conseiller");
+				} else {
+					sessionStorage.setItem("indice_conseiller",indice_conseiller);
 				}
+				
+				let elements = JSON.parse(this.responseText);
+				for (i = 0; i < elements.length; i++) {
+					let item = elements[i];
+					//console.log(item.numero);
+					if (indice_conseiller == item.numero) {
+						var nom = item.nom;
+						//alert(nom);
+						var prenom = item.prenom;
+						break;
+					}
+				}
+					let h1Conseiller = document.getElementById("nomConseiller");
+					h1Conseiller.innerHTML = "Bienvenue <strong>" + prenom + " " + nom + "</strong> dans votre espace conseiller";
+					let photoConseiller = document.getElementById("photoConseiller");
+					photoConseiller.src = "Images/"+nom+".jpg";
+				
 			}
-				let h1Conseiller = document.getElementById("nomConseiller");
-				h1Conseiller.innerHTML = "Bienvenue <strong>" + prenom + " " + nom + "</strong> dans votre espace conseiller";
-				let photoConseiller = document.getElementById("photoConseiller");
-				photoConseiller.src = "Images/"+nom+".jpg";
-			
 		}
+		xhttp.open("GET", "listeConseiller.json", true);
+		xhttp.send();
 	}
-	xhttp.open("GET", "listeConseiller.json", true);
-	xhttp.send();
-}
 
 
-function editer() {
-	let numeroClient = document.getElementById("sel1").value;
-	location.href='editer.html?numero_client=' + numeroClient;
-}
+	function editer() {
+		let numeroClient = document.getElementById("sel1").value;
+		location.href='editer.html?numero_client=' + numeroClient;
+	}
 
-function afficherCompte() {
-	let numeroClient = document.getElementById("sel1").value;
-	location.href='compteclient.html?numero_client=' + numeroClient;
-}
+	function afficherCompte() {
+		let numeroClient = document.getElementById("sel1").value;
+		location.href='compteclient.html?numero_client=' + numeroClient;
+	}
 
-function virementInterne() {
-	let numeroClient = document.getElementById("sel1").value;
-	location.href='virinterne.html?numero_client=' + numeroClient;
-}
-
-
-
-var FunOnl = new Array(); 
-
-function lancer(fonction) { 
-
-    FunOnl[FunOnl.length] = fonction; 
-
-}
+	function virementInterne() {
+		let numeroClient = document.getElementById("sel1").value;
+		location.href='virinterne.html?numero_client=' + numeroClient;
+	}
 
 
-window.onload = function() { 
+/*
+	var FunOnl = new Array(); 
 
-    for(var i = 0, longueur = FunOnl.length; i < longueur; i++) 
+	function lancer(fonction) { 
 
-        FunOnl[i]();
+	    FunOnl[FunOnl.length] = fonction; 
 
-};
+	}
 
-lancer(call);
-lancer(afficherNomConseiller);
+
+	window.onload = function() { 
+
+	    for(var i = 0, longueur = FunOnl.length; i < longueur; i++) 
+
+	        FunOnl[i]();
+
+	};
+
+	lancer(callconseiller);
+	lancer(afficherNomConseiller);
+	
+	*/
+	
+	
+	
+// Editer.html	
+	let myCallBackEdition = function(reponse) {
+		console.log("callback a executer a la reception d'une reponse")
+		//alert(reponse.responseText);	      
+		console.log("JsonParse")
+		var url_string = window.location.href;
+		//alert(url_string)
+		var url = new URL(url_string);
+		var numeroClient = url.searchParams.get("numero_client");
+		//alert(indice_conseiller)
+		let elements = JSON.parse(reponse.responseText);
+		let table = "<tr><th>Indice</th><th>Conseiller</th><th>Numero</th><th>Nom</th><th>Prénom</th><th>Adresse</th><th>Code Postal</th><th>Ville</th><th>Téléphone</th><th>Email</th></tr>";
+		let input = "";
+		for (i = 0; i < elements.length; i++) {
+			let item = elements[i];
+			if (numeroClient === item.numero) {
+				table += "<tr><td>" + (i + 1) + "</td><td>" + item.conseiller
+						+ "</td><td>" + item.numero + "</td><td>" + item.nom
+						+ "</td><td>" + item.prenom + "</td><td>"
+						+ item.adresse + "</td><td>" + item.codePostal
+						+ "</td><td>" + item.ville + "</td><td>"
+						+ item.telephone + "</td><td>" + item.email
+						+ "</td></tr>";
+				input += '<label for="prenom">Prenom :</label><input type="text" class="form-control" name="prenom" id="prenom" value="'+ item.prenom +'"><br>'
+						+ '<label for="nom">Nom :</label><input type="text" class="form-control" name="nom" id="nom" value="'+ item.nom +'"><br>'
+						+ '<label for="email">Email :</label><input type="email" class="form-control" name="email" id="email" value="'+ item.email +'"><br>'
+						+ '<label for="adresse">Adresse :</label><input type="text" class="form-control" name="adresse" id="adresse" value="'+ item.adresse +'"><br>'
+						+ '<label for="codePostal">Code Postal :</label><input type="text" class="form-control" name="codePostal" id="codePostal" value="'+ item.codePostal +'"><br>'
+						+ '<label for="ville">Ville :</label><input type="text" class="form-control" name="ville" id="ville" value="'+ item.ville +'"><br>';
+				break;
+			}
+		}
+		//let elementTable = document.getElementById("tableResultat");
+		//elementTable.innerHTML = table;
+		let elementList = document.getElementById("modif");
+		elementList.innerHTML = input;
+
+	}
+
+	function callEdition() {
+		console.log("Appel AJAX");
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				myCallBackEdition(this);
+			}
+		}
+		xhttp.open("GET", "listeClient.json", true);
+		xhttp.send();
+	}
+
+	function envoyerEdition() {
+		let prenom = document.getElementById("prenom").value;
+		let nom = document.getElementById("nom").value;
+		let email = document.getElementById("email").value;
+		let adresse = document.getElementById("adresse").value;
+		let codePostal = document.getElementById("codePostal").value;
+		let ville = document.getElementById("ville").value;
+		alert("Le client possède maintenant les valeurs suivantes :\nprenom : " + prenom
+				+ "\nnom : " + nom + "\nemail : " + email + "\nadresse : " + adresse
+				+ "\ncode postal : " + codePostal + "\nville : " + ville);
+	}
+	
+	window.onload = callEdition;
 
 //contact.html
 function show_alertContact(){
